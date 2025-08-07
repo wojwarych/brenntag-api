@@ -20,8 +20,8 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="/root/.local/bin:$PATH"
 
 WORKDIR /app
-COPY poetry.lock pyproject.toml /app/
+COPY poetry.lock pyproject.toml start.sh /app/
 RUN poetry install --no-interaction --no-ansi
 COPY ./src/ /app/
 
-CMD ["uvicorn", "--host", "0.0.0.0", "--port", "8080", "--reload", "src.main:app"]
+ENTRYPOINT ["./start.sh"]
