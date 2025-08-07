@@ -19,9 +19,9 @@ RUN apt-get update && \
 RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="/root/.local/bin:$PATH"
 
-WORKDIR /src
-COPY poetry.lock pyproject.toml /src/
+WORKDIR /app
+COPY poetry.lock pyproject.toml /app/
 RUN poetry install --no-interaction --no-ansi
-COPY ./src /src
+COPY ./src/ /app/
 
-CMD ["uvicorn", "--host", "0.0.0.0", "--port", "8080", "--reload", "main:app"]
+CMD ["uvicorn", "--host", "0.0.0.0", "--port", "8080", "--reload", "src.main:app"]

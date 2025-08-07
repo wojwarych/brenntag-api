@@ -12,15 +12,17 @@ services:
     build:
       dockerfile: ./Dockerfile
     volumes:
-      - ./src:/src
+      - ./src:/app/src
+      - ./pyproject.toml:/app/pyproject.toml
+      - ./poetry.lock:/app/poetry.lock
     ports:
       - "8080:8080"
     environment:
       POSTGRES_DB: "application_database"
       POSTGRES_PASSWORD: "root"
-      POSTGRES_USER: "report_admin"
-      PG_PORT: 5433
-      DB_HOST: "report_db"
+      POSTGRES_USER: "brenntag_admin"
+      POSTGRES_PORT: 5433
+      POSTGRES_HOST: "brenntag_db"
     restart: always
     depends_on:
       brenntag_db:
@@ -38,13 +40,13 @@ services:
       PGDATA: /var/lib/postgresql/data
       POSTGRES_DB: "application_database"
       POSTGRES_PASSWORD: "root"
-      POSTGRES_USER: "report_admin"
+      POSTGRES_USER: "brenntag_admin"
       PGPORT: 5433
     ports:
       - "5433:5433"
     healthcheck:
       test:
-        ["CMD", "pg_isready", "-q", "-d", "application_database", "-U", "report_admin"]
+        ["CMD", "pg_isready", "-q", "-d", "application_database", "-U", "brenntag_admin"]
       timeout: 45s
       interval: 1s
       retries: 45
