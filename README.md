@@ -13,3 +13,6 @@ Repo consisting of example API code for FastAPI-DB integration
 2. Set virtualenvs for poetry inside project: `poetry config virtualenvs.in-project true`
 3. Activate virtualenv with command. For bash: `eval $(poetry env activate)`
 4. Run `fastapi run src/main.py`
+
+## Docker development
+Invoke `docker compose up` command to run the project
