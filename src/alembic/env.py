@@ -3,7 +3,7 @@ import os
 from logging.config import fileConfig
 
 from sqlalchemy import pool
-from sqlalchemy.engine import Connection, URL
+from sqlalchemy.engine import URL, Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
@@ -11,16 +11,14 @@ from alembic import context
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-db_user = os.getenv('POSTGRES_USER', 'brenntag_admin')
-db_password = os.getenv('POSTGRES_PASSWORD', 'root')
-db_host = os.getenv('POSTGRES_HOST', 'brenntag_db')
-db_port = int(os.getenv('POSTGRES_PORT', '5433'))
-db_name = os.getenv('POSTGRES_DB', 'application_database')
+db_user = os.getenv("POSTGRES_USER", "brenntag_admin")
+db_password = os.getenv("POSTGRES_PASSWORD", "root")
+db_host = os.getenv("POSTGRES_HOST", "brenntag_db")
+db_port = int(os.getenv("POSTGRES_PORT", "5433"))
+db_name = os.getenv("POSTGRES_DB", "application_database")
 
 url = f"postgresql+asyncpg://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
-config.set_main_option(
-    "sqlalchemy.url", url
-)
+config.set_main_option("sqlalchemy.url", url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -28,6 +26,7 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 from src.db.models import Base
+
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
