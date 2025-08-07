@@ -33,6 +33,13 @@ black = "^25.1.0"
 isort = "^6.0.1"
 mypy = "^1.17.1"
 
+[tool.black]
+line-length = 88
+target-version = ['py313']
+
+[tool.isort]
+profile = "black"
+
 [tool.alembic]
 
 # path to migration scripts.
