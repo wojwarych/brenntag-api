@@ -21,10 +21,17 @@ package-mode = false
 [tool.poetry.group.prod.dependencies]
 fastapi = {extras = ["standard"], version = "^0.116.1"}
 pydantic = "^2.11.7"
-sqlalchemy = "^2.0.42"
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.42"}
 alembic = "^1.16.4"
 asyncpg = "^0.30.0"
 
+
+
+[tool.poetry.group.dev.dependencies]
+requests = "^2.32.4"
+black = "^25.1.0"
+isort = "^6.0.1"
+mypy = "^1.17.1"
 
 [tool.alembic]
 
