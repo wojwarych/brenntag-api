@@ -53,3 +53,6 @@ class Book(BaseModel):
     @field_serializer("price")
     def serialize_price(self, price: Decimal, _info):
         return decimal_encoder(price)
+
+    def __repr__(self) -> str:
+        return f"Book(id={self.id!r}, title={self.title!r}, author={self.author!r}"

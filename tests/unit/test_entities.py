@@ -7,7 +7,15 @@ from src.entities import Book
 
 @pytest.fixture
 def book() -> Book:
-    return Book(id=3, title="Lord of the Rings", author="J.R.R. Tolkien", pages=1090, rating=Decimal(4.4), price=Decimal(2.33))
+    return Book(
+        id=3,
+        title="Lord of the Rings",
+        author="J.R.R. Tolkien",
+        pages=1090,
+        rating=Decimal(4.4),
+        price=Decimal(2.33),
+    )
+
 
 @pytest.fixture
 def price_and_rating() -> dict[str, Decimal]:
