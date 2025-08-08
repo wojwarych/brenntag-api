@@ -1,6 +1,5 @@
 import logging
 
-
 from src.db.uow import UnitOfWorkInterface
 from src.entities.entities import Book
 

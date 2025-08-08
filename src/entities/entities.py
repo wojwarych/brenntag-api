@@ -42,17 +42,19 @@ class Book(BaseModel):
             price=self.price,
         )
 
-    def update_price_and_rating(self, price_and_rating: dict[str, Decimal]) -> None:
+    def update_price_and_rating(
+        self, price_and_rating: dict[str, Decimal]
+    ) -> None:  # noqa: E501
         self.price = price_and_rating["price"]
         self.rating = price_and_rating["rating"]
 
     @field_serializer("rating")
-    def serialize_rating(self, rating: Decimal, _info) -> int | float:  # type: ignore[no-untyped-def]
+    def serialize_rating(self, rating: Decimal, _info) -> int | float:  # type: ignore[no-untyped-def]  # noqa: E501
         return decimal_encoder(rating)
 
     @field_serializer("price")
-    def serialize_price(self, price: Decimal, _info) -> int | float:  # type: ignore[no-untyped-def]
+    def serialize_price(self, price: Decimal, _info) -> int | float:  # type: ignore[no-untyped-def]  # noqa: E501
         return decimal_encoder(price)
 
     def __repr__(self) -> str:
-        return f"Book(id={self.id!r}, title={self.title!r}, author={self.author!r}"
+        return f"Book(id={self.id!r}, title={self.title!r}, author={self.author!r}"  # noqa: E501

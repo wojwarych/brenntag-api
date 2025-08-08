@@ -34,7 +34,8 @@ async def healthcheck() -> dict[str, str]:
 
 @app.get("/books/{id_}")
 async def get_book(
-    id_: int, uow: Annotated[UnitOfWorkInterface, Depends(create_sql_unit_of_work)]
+    id_: int,
+    uow: Annotated[UnitOfWorkInterface, Depends(create_sql_unit_of_work)],
 ) -> Book:
     logger.info(f"Request for book of id: {id_}")
     book = await get_book_by_id(id_, uow)
@@ -50,7 +51,7 @@ async def get_books(
     min_pages: int | None = None,
 ) -> list[Book]:
     logger.info(
-        f"Request for list of book with query param title={title} or min_pages={min_pages}"
+        f"Request for list of book with query param title={title} or min_pages={min_pages}"  # noqa: E501
     )
     if title:
         return await get_books_by_title(title, uow)
