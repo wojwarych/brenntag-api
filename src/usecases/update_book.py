@@ -1,34 +1,34 @@
 import logging
 from decimal import Decimal
 
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.sql import select
-
-from src.db.models import Book as BookORM
+from src.db.uow import UnitOfWorkInterface
 from src.entities.entities import Book
 
 logger = logging.getLogger(__name__)
 
 
 async def update_books_price_and_rating(
-    id_: int, price_and_rating: dict[str, Decimal], async_session: AsyncSession
+    id_: int, price_and_rating: dict[str, Decimal], uow: UnitOfWorkInterface
 ) -> Book:
-    stmt = select(BookORM).where(BookORM.id == id_)
-    async with async_session as async_sess:
+    async with uow:
         try:
-            book = (await async_sess.scalars(stmt)).one()
-            logger.debug(
-                f"Old price and rating: price={book.price}, rating={book.rating}"
-            )
-            book_entity = Book.from_orm(book)
-            book_entity.update_price_and_rating(price_and_rating)
-            book.price = book_entity.price
-            book.rating = book_entity.rating
-            await async_sess.commit()
-            logger.info(
-                f"Successfully updated price and rating for book: {book}, price={book.price}, rating={book.rating}"
-            )
-            return Book.from_orm(book)
+            book_orm = await uow.books_repo.get_item_by_id(id_)
+            if book_orm:
+                logger.debug(
+                    f"Old price and rating: price={book_orm.price}, rating={book_orm.rating}"
+                )
+                book_entity = Book.from_orm(book_orm)
+                book_entity.update_price_and_rating(price_and_rating)
+                book_orm = await uow.books_repo.update_item(book_orm, book_entity)
+                if book_orm:
+                    await uow.commit()
+                    logger.info(
+                        f"Successfully updated price and rating for book: {book_orm}, price={book_orm.price}, rating={book_orm.rating}"
+                    )
+                    return book_entity
+                else:
+                    raise Exception()
+            raise Exception()
         except Exception as exc:
             logger.exception(exc)
             return None

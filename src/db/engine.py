@@ -1,8 +1,6 @@
 import os
 
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
-
-from src.db.models import Base
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 db_user = os.getenv("POSTGRES_USER", "brenntag_admin")
 db_password = os.getenv("POSTGRES_PASSWORD", "root")
@@ -15,7 +13,4 @@ url = f"postgresql+asyncpg://{db_user}:{db_password}@{db_host}:{db_port}/{db_nam
 engine = create_async_engine(url)
 
 
-async def create_session() -> AsyncSession:
-    async_session = async_sessionmaker(engine, expire_on_commit=False)
-    async with async_session() as sess:
-        yield sess
+DEFAULT_SESSION_FACTORY = async_sessionmaker(engine, expire_on_commit=False)

@@ -28,8 +28,8 @@ class Book(BaseModel):
             title=book_orm.title,
             author=book_orm.author,
             pages=book_orm.pages,
-            rating=book_orm.rating,
-            price=book_orm.price,
+            rating=Decimal(book_orm.rating),
+            price=Decimal(book_orm.price),
         )
 
     def to_orm(self) -> BookORM:
@@ -47,11 +47,11 @@ class Book(BaseModel):
         self.rating = price_and_rating["rating"]
 
     @field_serializer("rating")
-    def serialize_rating(self, rating: Decimal, _info):
+    def serialize_rating(self, rating: Decimal, _info) -> int | float:  # type: ignore[no-untyped-def]
         return decimal_encoder(rating)
 
     @field_serializer("price")
-    def serialize_price(self, price: Decimal, _info):
+    def serialize_price(self, price: Decimal, _info) -> int | float:  # type: ignore[no-untyped-def]
         return decimal_encoder(price)
 
     def __repr__(self) -> str:

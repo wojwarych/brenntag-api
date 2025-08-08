@@ -23,7 +23,7 @@ def test_get_book_by_id():
 
 
 def test_get_book_by_title():
-    r = requests.get(f"{BASE}/books", timeout=3)
+    r = requests.get(f"{BASE}/books", params={"title": "1984"}, timeout=3)
     assert r.status_code == 200
     assert any(b["title"] == "1984" for b in r.json())
     print("Get by title")
