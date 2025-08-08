@@ -17,4 +17,4 @@ class Book(Base):
     price: Mapped[float] = mapped_column(Double())
 
     def __repr__(self) -> str:
-        return f"Book(id={self.id!r}, title={self.title!r}, author={self.author!r}"
+        return f"Book(id={self.id!r}, title={self.title!r}, author={self.author!r})"
