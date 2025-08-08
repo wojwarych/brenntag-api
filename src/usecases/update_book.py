@@ -14,10 +14,11 @@ async def update_books_price_and_rating(
     async with async_session as async_sess:
         try:
             book = (await async_sess.scalars(stmt)).one()
-            book.price = price_and_rating["price"]
-            book.rating = price_and_rating["rating"]
+            book_entity = Book.from_orm(book)
+            book_entity.update_price_and_rating(price_and_rating)
+            book.price = book_entity.price
+            book.rating = book_entity.rating
             await async_sess.commit()
-            print(book.rating, book.price)
             return Book.from_orm(book)
         except Exception as exc:
             print(exc)

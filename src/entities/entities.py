@@ -42,6 +42,10 @@ class Book(BaseModel):
             price=self.price,
         )
 
+    def update_price_and_rating(self, price_and_rating: dict[str, Decimal]) -> None:
+        self.price = price_and_rating["price"]
+        self.rating = price_and_rating["rating"]
+
     @field_serializer("rating")
     def serialize_rating(self, rating: Decimal, _info):
         return decimal_encoder(rating)
